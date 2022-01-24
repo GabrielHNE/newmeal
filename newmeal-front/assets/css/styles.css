@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-family: 'Raleway', sans-serif;
+        background: #FF4E50;
+        color: white;
+        line-height: 1.8;
+        width: 100vw;
+    }
+    a {
+        text-decoration: none;
+    }
+    #bg-image {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        background-image: url("../img/login-back.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        filter: blur(8px);
+        -webkit-filter: blur(2px);
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .4);
+    }
+    .container {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        /* Center and scale the image nicely */
+    }
+    .title {
+        font-family: 'Pacifico', cursive;
+        font-size: 45px;
+        font-weight: 400;
+        padding-left: 2rem;
+    }
+}
