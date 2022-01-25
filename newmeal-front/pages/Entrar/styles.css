@@ -1,0 +1,6 @@
+@import "../../assets/css/styles.css";
+.container-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
