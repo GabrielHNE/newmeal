@@ -1,0 +1,6 @@
+[
+    { "Id": 1, "Login": "login1", "Senha": "senha1", "Email": "email@email.com", "PerfilId": 1 },
+    { "Id": 2, "Login": "login2", "Senha": "senha2", "Email": "email2@email.com", "PerfilId": 2 },
+    { "Id": 3, "Login": "login3", "Senha": "senha3", "Email": "email3@email.com", "PerfilId": 3 },
+    { "Id": 4, "Login": "login4", "Senha": "senha4", "Email": "email4@email.com", "PerfilId": 4 }
+]

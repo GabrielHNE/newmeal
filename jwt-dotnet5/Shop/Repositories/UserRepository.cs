@@ -4,14 +4,23 @@ using Shop.Models;
 
 namespace Shop.Repositories
 {
-    public static class UserRepository
+
+    public class UserRepository
     {
-        public static User Get(string username, string password)
+        private BdConnection _bdConnection;
+
+        public UserRepository(){
+            _bdConnection = new BdConnection();
+        }
+
+        public InfoLogin GetInfoLogin(string login, string senha){
+            return _bdConnection.infoLogins.FirstOrDefault(x => x.Login == login && x.Senha == senha);
+        }
+
+        public User GetUser(int id)
         {
-            var users = new List<User>();
-            users.Add(new User { Id = 1, Username = "batman", Password = "batman", Role = "manager" });
-            users.Add(new User { Id = 2, Username = "robin", Password = "robin", Role = "employee" });
-            return users.Where(x => x.Username.ToLower() == username.ToLower() && x.Password == password).FirstOrDefault();
+            return _bdConnection.users.FirstOrDefault(x => x.Id == id);
         }
     }
 }
+

@@ -1,0 +1,12 @@
+{
+    "InfoLogin": [
+        { "id": 1, "login": "login1", "senha": "senha123", "email": "email@email.com", "perfilId": 1 },
+        { "id": 2, "login": "login1", "senha": "senha123", "email": "email@email.com", "perfilId": 2 }
+    ],
+    "Perfil": [
+        { "id": 1, "tipoConta": "consumidor" },
+        { "id": 2, "tipoConta": "restaurante" }
+    ]
+}
+
+JObject o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));

@@ -1,0 +1,6 @@
+[
+    { "Id": 1, "Role": "consumidor" },
+    { "Id": 2, "Role": "restaurante" },
+    { "Id": 3, "Role": "consumidor" },
+    { "Id": 4, "Role": "restaurante" }
+]
