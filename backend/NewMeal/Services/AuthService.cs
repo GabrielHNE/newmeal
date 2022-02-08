@@ -67,7 +67,7 @@ namespace Shop.Services
             if(!created)
                 return false;
 
-            return _emailService.sendEmail(infoLogin.Email, "Conta criado no NewMeal!", "Parabéns! Você é um otário.");
+            return _emailService.sendEmail(infoLogin.Email, "Conta criada no NewMeal", $"Olá, {user.Nome}. Sua conta no NewMeal foi criada com sucesso!");
         }
     }
 }

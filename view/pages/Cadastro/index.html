@@ -95,7 +95,7 @@
                     })
                     .then(res => res.json())
                     .then(res => {
-                        alert("Criado" + res.statusCode);
+                        alert(`Criado status: ${res.statusCode}`);
                     })
                     .catch(e => {
                         console.log("Erro na requisição: ", e);
