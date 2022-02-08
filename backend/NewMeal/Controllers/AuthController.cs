@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 using Shop.Services;
 using Shop.Repositories;
@@ -14,41 +15,35 @@ namespace Shop.Controllers
     public class AuthController : Controller
     {
         private AuthService _authService;
-        private UserRepository _userRepository;
         
         public AuthController(AuthService authService){
             _authService = authService;
-            _userRepository = new UserRepository();
         }
         
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<dynamic>> Authenticate([FromBody]InfoLoginViewModel model)
+        [AllowAnonymous]
+        public async Task<JsonResult> Authenticate([FromBody]LoginRequestViewModel model)
         {
+            LoginResponseViewModel response = _authService.Authenticate(model);
+
+            if(response == null)
+                return Json(NotFound());
             
-            // User usuario = _authService.Authenticate();
+            return Json(response);            
+        }
 
-            //recupera o usuário
-            var infoLogin = _userRepository.GetInfoLogin(model.Login, model.Senha);
+        [HttpPost]
+        [Route("signup")]
+        [AllowAnonymous]
+        public async Task<JsonResult> SignUp([FromBody]SignUpRequestViewModel model)
+        {
+            bool res = _authService.SignUp(model);
 
-            //Verifica se o usuário existe
-            if (infoLogin == null)
-                return new NotFoundResult();
+            if(!res)
+                return Json(BadRequest("Email já cadastrado"));
 
-            var user = _userRepository.GetUser(infoLogin.Id);
-
-            //Gere o token
-            var token = TokenService.GenerateToken(infoLogin, user);
-
-            //Oculta a senha
-
-            //Retorna os dados
-
-            return new
-            {
-                user = user,
-                token = token
-            };
+            return Json(Ok(res));
         }
 
         // [HttpGet]

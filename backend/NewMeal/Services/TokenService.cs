@@ -17,7 +17,7 @@ namespace Shop.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, infoLogin.Login.ToString()),
+                    new Claim(ClaimTypes.Name, infoLogin.Email.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 

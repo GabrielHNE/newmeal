@@ -1,6 +1,83 @@
 [
-    { "Id": 1, "Role": "consumidor" },
-    { "Id": 2, "Role": "restaurante" },
-    { "Id": 3, "Role": "consumidor" },
-    { "Id": 4, "Role": "restaurante" }
+  {
+    "Nome": "Gabriel",
+    "Contato": "(43)1234-5678",
+    "Rua": "rua 1",
+    "Numero": "1",
+    "Compl": "a",
+    "Role": "consumidor",
+    "Id": 1
+  },
+  {
+    "Nome": "João",
+    "Contato": "(43)1234-5678",
+    "Rua": "rua 2",
+    "Numero": "2",
+    "Compl": "b",
+    "Role": "restaurante",
+    "Id": 2
+  },
+  {
+    "Nome": "Lucca",
+    "Contato": "(43)1234-5678",
+    "Rua": "rua 3",
+    "Numero": "3",
+    "Compl": "",
+    "Role": "consumidor",
+    "Id": 3
+  },
+  {
+    "Nome": "Torugo",
+    "Contato": "(43)1234-5678",
+    "Rua": "rua 4",
+    "Numero": "4",
+    "Compl": "",
+    "Role": "restaurante",
+    "Id": 4
+  },
+  {
+    "Nome": "jandura",
+    "Contato": "(43)9999-6666",
+    "Rua": "1",
+    "Numero": "1",
+    "Compl": "1",
+    "Role": "consumidor",
+    "Id": 5
+  },
+  {
+    "Nome": "gabriel2",
+    "Contato": "(43)9999-6666",
+    "Rua": "1",
+    "Numero": "1",
+    "Compl": "1",
+    "Role": "consumidor",
+    "Id": 6
+  },
+  {
+    "Nome": "Gabriel Hennn",
+    "Contato": "99 99999 9999",
+    "Rua": "Rua 2",
+    "Numero": "123",
+    "Compl": "",
+    "Role": "consumidor",
+    "Id": 7
+  },
+  {
+    "Nome": "Gabriel Novo",
+    "Contato": "99 99999 9999",
+    "Rua": "Rua 090",
+    "Numero": "123",
+    "Compl": "",
+    "Role": "consumidor",
+    "Id": 8
+  },
+  {
+    "Nome": "blablabla",
+    "Contato": "31231",
+    "Rua": "123",
+    "Numero": "123",
+    "Compl": "12",
+    "Role": "consumidor",
+    "Id": 9
+  }
 ]

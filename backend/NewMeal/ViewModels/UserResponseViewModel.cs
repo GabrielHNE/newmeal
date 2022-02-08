@@ -1,7 +1,7 @@
-namespace Shop.Models
+namespace Shop.ViewModels
 {
-    public class User : BaseModel
-    {
+    public class UserResponseViewModel {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Contato { get; set; }
         public string Rua { get; set; }

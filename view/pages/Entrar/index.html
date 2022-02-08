@@ -35,6 +35,40 @@
             </form>
         </div>
     </div>
+    <script>
+        $(document).ready(() => {
+            $('form').on("submit", function(e) {
+                e.preventDefault();
+                let usuario;
+
+                const email = $('form').find('input[type="email"]').val();
+                const senha = $('form').find('input[type="password"]').val();
+
+                console.log(email, senha);
+
+                let data = {
+                    email: email,
+                    senha: senha
+                };
+
+                fetch('https://localhost:5001/login', {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        console.log(res);
+                        alert(`Olá, ${res.user.nome}. Bem vindo!\nVai pedir nada não? Caralho`);
+                    })
+                    .catch(e => {
+                        console.log("Erro na requisição: ", e);
+                    });
+            });
+        });
+    </script>
 </body>
 
 </html>

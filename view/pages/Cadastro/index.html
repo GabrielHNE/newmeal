@@ -48,11 +48,11 @@
                 </div>
                 <div class="input-container">
                     <label>Senha</label>
-                    <input type="password" />
+                    <input id="senha" type="password" />
                 </div>
                 <div class="input-container">
-                    <label>Senha</label>
-                    <input type="password" />
+                    <label>Confirmar Senha</label>
+                    <input id="confirmar_senha" type="password" />
                 </div>
             </fieldset>
 
@@ -60,6 +60,49 @@
         </form>
 
     </div>
+
+    <script>
+        $(document).ready(() => {
+            $('form').on("submit", function(e) {
+                e.preventDefault();
+                let usuario;
+
+                const nome = $('form').find('input[name="nome"]').val();
+                const email = $('form').find('input[name="email"]').val();
+                const contato = $('form').find('input[name="contato"]').val();
+                const rua = $('form').find('input[name="rua"]').val();
+                const num = $('form').find('input[name="num"]').val();
+                const compl = $('form').find('input[name="compl"]').val();
+                const senha = $('form').find('input#senha').val();
+                const confirmar_senha = $('form').find('input#confirmar_senha').val();
+
+                let data = {
+                    nome: nome,
+                    email: email,
+                    contato: contato,
+                    rua: rua,
+                    numero: num,
+                    compl: compl,
+                    senha: senha
+                };
+
+                fetch('https://localhost:5001/signup', {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        alert("Criado" + res.statusCode);
+                    })
+                    .catch(e => {
+                        console.log("Erro na requisição: ", e);
+                    });
+            });
+        });
+    </script>
 </body>
 
 </html>

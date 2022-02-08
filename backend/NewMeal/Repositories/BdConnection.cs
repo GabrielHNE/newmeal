@@ -14,13 +14,16 @@ namespace Shop.Repositories
     public class BdConnection
     {
         private string BasePath;
+        private string PathInfoLogin;
+        private string PathUser;
         private JsonSerializerOptions options;
         public List<InfoLogin> infoLogins { get; set; }
         public List<User> users { get; set; }
 
         public BdConnection(){
-            // BasePath = Path.Combine(Directory.GetCurrentDirectory(), "../BD");
-            BasePath = "C:\\Users\\GabrielH\\Documents\\1-Aulas\\EngSoft\\2bim\\newmeal\\jwt-dotnet5\\Shop\\BD";
+            BasePath = Path.Combine(Directory.GetCurrentDirectory(), "BD");
+            PathInfoLogin = Path.Combine(BasePath,"info-login.json");
+            PathUser= Path.Combine(BasePath,"user.json");
 
             options = new JsonSerializerOptions
             {
@@ -30,18 +33,15 @@ namespace Shop.Repositories
 
             infoLogins = ReadInfoLogin().ToList();
             users = ReadUser().ToList();
-
-            Console.WriteLine(infoLogins.Count());
-            
         }
 
         private IEnumerable<InfoLogin> ReadInfoLogin(){
             try
             {
                 IEnumerable<InfoLogin> lista;
-                string PathJson = Path.Combine(BasePath,"info-login.json");
+                
                 byte[] bytes;
-                bytes = File.ReadAllBytes(PathJson);
+                bytes = File.ReadAllBytes(PathInfoLogin);
 
                 var readOnlySpan = new ReadOnlySpan<byte>(bytes);
                 lista = JsonSerializer.Deserialize<IEnumerable<InfoLogin>>(readOnlySpan, options);
@@ -54,7 +54,6 @@ namespace Shop.Repositories
             }
             catch
             {
-                Console.WriteLine("DEU MERDA");
                 return new List<InfoLogin>();
             }
         }
@@ -63,9 +62,9 @@ namespace Shop.Repositories
             try
             {
                 IEnumerable<User> lista;
-                string PathJson = Path.Combine(BasePath,"user.json");
+                
                 byte[] bytes;
-                bytes = File.ReadAllBytes(PathJson);
+                bytes = File.ReadAllBytes(PathUser);
 
                 var readOnlySpan = new ReadOnlySpan<byte>(bytes);
                 lista = JsonSerializer.Deserialize<IEnumerable<User>>(readOnlySpan, options);
@@ -79,6 +78,22 @@ namespace Shop.Repositories
             catch
             {
                 return new List<User>();
+            }
+        }
+
+        public void Save(){
+            try
+            {
+                byte[] bytes;
+                bytes = JsonSerializer.SerializeToUtf8Bytes(infoLogins, options);
+                File.WriteAllBytes(PathInfoLogin, bytes);
+
+                bytes = JsonSerializer.SerializeToUtf8Bytes(users, options);
+                File.WriteAllBytes(PathUser, bytes); 
+            }
+            catch (IOException erro)
+            {
+                throw new IOException(erro.Message);
             }
         }
     }
