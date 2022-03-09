@@ -1,6 +1,6 @@
 using System;
 
-namespace Shop.Models
+namespace NewMeal.Domain.Models
 {
     public abstract class BaseModel
     {

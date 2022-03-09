@@ -14,10 +14,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
-using Shop.Services;
-using Shop.Repositories;
+using NewMeal.Application.Services;
+using NewMeal.Infra.Repositories;
 
-namespace Shop
+namespace NewMeal
 {
     public class Startup
     {

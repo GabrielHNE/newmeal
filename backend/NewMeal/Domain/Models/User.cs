@@ -1,7 +1,7 @@
-namespace Shop.ViewModels
+namespace NewMeal.Domain.Models
 {
-    public class UserResponseViewModel {
-        public int Id { get; set; }
+    public class User : BaseModel
+    {
         public string Nome { get; set; }
         public string Contato { get; set; }
         public string Rua { get; set; }
