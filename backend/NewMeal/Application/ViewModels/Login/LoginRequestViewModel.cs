@@ -1,4 +1,4 @@
-namespace Shop.ViewModels
+namespace NewMeal.Application.ViewModels
 {
     public class LoginRequestViewModel {
         public string Email { get; set; }

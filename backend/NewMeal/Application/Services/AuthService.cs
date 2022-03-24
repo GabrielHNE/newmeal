@@ -2,13 +2,13 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Shop.Models;
-using Shop.ViewModels;
-using Shop.Repositories;
+using NewMeal.Domain.Models;
+using NewMeal.Application.ViewModels;
+using NewMeal.Infra.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
 
-namespace Shop.Services
+namespace NewMeal.Application.Services
 {
     public class AuthService
     {

@@ -1,11 +1,11 @@
 using System;
 using System.Net.Mail;
 using System.Net;
-using Shop.Models;
-using Shop.ViewModels;
-using Shop.Repositories;
+using NewMeal.Domain.Models;
+using NewMeal.Application.ViewModels;
+using NewMeal.Infra.Repositories;
 
-namespace Shop.Services
+namespace NewMeal.Application.Services
 {
     public class EmailService {
         private SmtpClient _client;

@@ -1,4 +1,4 @@
-namespace Shop
+namespace NewMeal
 {
     public class Settings
     {

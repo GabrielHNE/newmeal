@@ -7,9 +7,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Encodings.Web;
 using System.Linq;
-using Shop.Models;
+using NewMeal.Domain.Models;
 
-namespace Shop.Repositories
+namespace NewMeal.Infra.Repositories
 {
     public class BdConnection
     {

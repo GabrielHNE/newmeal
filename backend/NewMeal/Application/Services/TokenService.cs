@@ -2,10 +2,10 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Shop.Models;
+using NewMeal.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Shop.Services
+namespace NewMeal.Application.Services
 {
     public static class TokenService
     {

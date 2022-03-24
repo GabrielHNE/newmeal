@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 
-using Shop.Services;
-using Shop.Repositories;
-using Shop.ViewModels;
+using NewMeal.Application.Services;
+using NewMeal.Application.ViewModels;
+using NewMeal.Infra.Repositories;
 
-namespace Shop.Controllers
+namespace NewMeal.Controllers
 {
     public class AuthController : Controller
     {

@@ -1,4 +1,4 @@
-namespace Shop.Models
+namespace NewMeal.Domain.Models
 {
     public class InfoLogin : BaseModel{
         public string Email { get; set; }

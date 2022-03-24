@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shop.Models;
+using NewMeal.Domain.Models;
 
-namespace Shop.Repositories
+namespace NewMeal.Infra.Repositories
 {
     public class UserRepository
     {
