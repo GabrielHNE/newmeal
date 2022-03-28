@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,8 +15,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+
 using NewMeal.Application.Services;
 using NewMeal.Infra.Repositories;
+using NewMeal.Infra;
 
 namespace NewMeal
 {
@@ -58,6 +62,10 @@ namespace NewMeal
                     ValidateAudience = false
                 };
             });
+
+            string path = Directory.GetCurrentDirectory();
+            string dbPath = System.IO.Path.Join(path, "newmeal.db");
+            services.AddDbContext<NewMealDbContext>(opt => opt.UseSqlite($"Data Source={dbPath}"));
 
             services.AddScoped<AuthService>();
             services.AddScoped<EmailService>();
