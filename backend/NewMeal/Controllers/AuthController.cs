@@ -36,9 +36,9 @@ namespace NewMeal.Controllers
         [HttpPost]
         [Route("signup")]
         [AllowAnonymous]
-        public async Task<JsonResult> SignUp([FromBody]SignUpRequestViewModel model)
+        public async Task<JsonResult> SignUp([FromBody] SignUpRequestViewModel model)
         {
-            bool res = _authService.SignUp(model);
+            bool res = await _authService.SignUp(model);
 
             if(!res)
                 return Json(BadRequest("Email já cadastrado"));

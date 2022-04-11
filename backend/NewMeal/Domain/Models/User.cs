@@ -8,5 +8,7 @@ namespace NewMeal.Domain.Models
         public string Numero { get; set; }
         public string Compl { get; set; }
         public string Role { get; set; }
+
+        public InfoLogin InfoLogin { get; set; }
     }
 }
