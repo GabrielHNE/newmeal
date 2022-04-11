@@ -70,6 +70,7 @@ namespace NewMeal
             services.AddScoped<AuthService>();
             services.AddScoped<EmailService>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

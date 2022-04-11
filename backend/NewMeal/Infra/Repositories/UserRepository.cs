@@ -2,43 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NewMeal.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+
 
 namespace NewMeal.Infra.Repositories
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        private BdConnection _bdConnection;
-
-        public UserRepository(){
-            _bdConnection = new BdConnection();
-        }
+        public UserRepository(NewMealDbContext newMealDbContext) : base(newMealDbContext){} 
 
         public InfoLogin GetInfoLogin(string email, string senha){
-            return _bdConnection.infoLogins.FirstOrDefault(x => x.Email == email && x.Senha == senha);
+            return Query.AsNoTracking().Include(x => x.InfoLogin).Where(x => x.InfoLogin.Email == email && x.InfoLogin.Senha == senha)
+            .Select(x => x.InfoLogin).FirstOrDefault();
         }
 
         public User GetUser(int id)
         {
-            return _bdConnection.users.FirstOrDefault(x => x.Id == id);
+            return Query.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
-        public bool CreateUser(User user, InfoLogin infoLogin){
-            if(_bdConnection.infoLogins.Any(x => x.Email == infoLogin.Email)){
-                return false;
-            }
-            
-            var MaxId = _bdConnection.infoLogins.OrderByDescending(x => x.Id).FirstOrDefault().Id;
-
-            user.Id = MaxId+1;
-            infoLogin.Id = MaxId+1;
-            infoLogin.PerfilId = MaxId+1;
-
-            _bdConnection.infoLogins.Add(infoLogin);
-            _bdConnection.users.Add(user);
-            _bdConnection.Save();
-
-            return true;
-        }
     }
 }
 
