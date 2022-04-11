@@ -2,8 +2,10 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using NewMeal.Domain.Models;
 using NewMeal.Application.ViewModels;
+using NewMeal.Infra;
 using NewMeal.Infra.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,10 +16,12 @@ namespace NewMeal.Application.Services
     {
         private UserRepository _userRepository;
         private EmailService _emailService;
+        private UnitOfWork _unitOfWork;
 
-        public AuthService(UserRepository userRepository, EmailService emailService){
+        public AuthService(UserRepository userRepository, EmailService emailService, UnitOfWork unitOfWork){
             _userRepository = userRepository;
             _emailService = emailService;
+            _unitOfWork = unitOfWork;
         }
         public LoginResponseViewModel Authenticate(LoginRequestViewModel loginRequest)
         {
@@ -46,8 +50,9 @@ namespace NewMeal.Application.Services
             return new LoginResponseViewModel{User = userResponse, Token = token};
         }
 
-        public bool SignUp(SignUpRequestViewModel signUpRequest)
+        public async Task<bool> SignUp(SignUpRequestViewModel signUpRequest)
         {
+
             User user = new User{
                 Nome = signUpRequest.Nome,
                 Contato = signUpRequest.Contato,
@@ -61,13 +66,17 @@ namespace NewMeal.Application.Services
                 Email = signUpRequest.Email,
                 Senha = signUpRequest.Senha
             };
-            
-            var created = _userRepository.CreateUser(user,infoLogin);
-            
-            if(!created)
-                return false;
 
-            return _emailService.sendEmail(infoLogin.Email, "Conta criada no NewMeal", $"Olá, {user.Nome}. Sua conta no NewMeal foi criada com sucesso!");
+            if(_userRepository.GetInfoLogin(infoLogin.Email, infoLogin.Senha) != null){
+                return false;
+            }
+
+            user.InfoLogin = infoLogin;
+            
+            await _userRepository.Add(user);
+            await _unitOfWork.SaveChanges();
+            _emailService.sendEmail(infoLogin.Email, "Conta criada no NewMeal", $"Olá, {user.Nome}. Sua conta no NewMeal foi criada com sucesso!");
+            return true;
         }
     }
 }
