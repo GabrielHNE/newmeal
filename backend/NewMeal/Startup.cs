@@ -63,13 +63,21 @@ namespace NewMeal
                 };
             });
 
+            // Adicionar conexão com banco de dados
             string path = Directory.GetCurrentDirectory();
             string dbPath = System.IO.Path.Join(path, "newmeal.db");
             services.AddDbContext<NewMealDbContext>(opt => opt.UseSqlite($"Data Source={dbPath}"));
 
+            // Adicionar Services
             services.AddScoped<AuthService>();
             services.AddScoped<EmailService>();
+            services.AddScoped<RestauranteService>();
+
+            // Adicionar repositories
             services.AddScoped<UserRepository>();
+            services.AddScoped<RestauranteRepository>();
+
+            // Adicionar UnitOfWork
             services.AddScoped<UnitOfWork>();
         }
 
