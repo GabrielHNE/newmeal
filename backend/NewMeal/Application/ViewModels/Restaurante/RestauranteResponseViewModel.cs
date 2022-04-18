@@ -8,6 +8,7 @@ namespace NewMeal.Application.ViewModels
         public string Cnpj { get; set; }
         public string Telefone { get; set; }
         public string Endereco { get; set; }
+        public string Foto { get; set; }
         public IEnumerable<PratoResponseViewModel> Pratos { get; set; }
     }
 }
