@@ -42,7 +42,7 @@ namespace NewMeal
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NewMeal", Version = "v1" });
             });
 
             services.AddAuthentication(x =>
@@ -63,13 +63,21 @@ namespace NewMeal
                 };
             });
 
+            // Adicionar conexão com banco de dados
             string path = Directory.GetCurrentDirectory();
             string dbPath = System.IO.Path.Join(path, "newmeal.db");
             services.AddDbContext<NewMealDbContext>(opt => opt.UseSqlite($"Data Source={dbPath}"));
 
+            // Adicionar Services
             services.AddScoped<AuthService>();
             services.AddScoped<EmailService>();
+            services.AddScoped<RestauranteService>();
+
+            // Adicionar repositories
             services.AddScoped<UserRepository>();
+            services.AddScoped<RestauranteRepository>();
+
+            // Adicionar UnitOfWork
             services.AddScoped<UnitOfWork>();
         }
 
