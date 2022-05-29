@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System;
 using System.Collections.Generic;
@@ -16,8 +19,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 using NewMeal.Application.Services;
+using NewMeal.Application.AutoMapper.Profiles;
 using NewMeal.Infra.Repositories;
 using NewMeal.Infra;
 
@@ -79,6 +84,17 @@ namespace NewMeal
 
             // Adicionar UnitOfWork
             services.AddScoped<UnitOfWork>();
+
+            var AutoMapperConfig = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<RestauranteProfile>();
+                cfg.AddProfile<UserProfile>();
+                cfg.AddProfile<PratoProfile>();
+            });
+
+            IMapper mapper = AutoMapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +104,7 @@ namespace NewMeal
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NewMeal v1"));
             }
 
             // app.UseHttpsRedirection();

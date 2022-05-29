@@ -1,3 +1,5 @@
+using System.Buffers.Text;
+using System.Reflection.Metadata;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,6 +11,7 @@ using NewMeal.Infra;
 using NewMeal.Infra.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
+using AutoMapper;
 
 namespace NewMeal.Application.Services
 {
@@ -17,12 +20,16 @@ namespace NewMeal.Application.Services
         private UserRepository _userRepository;
         private EmailService _emailService;
         private UnitOfWork _unitOfWork;
+        private IMapper _mapper;
 
-        public AuthService(UserRepository userRepository, EmailService emailService, UnitOfWork unitOfWork){
+
+        public AuthService(UserRepository userRepository, EmailService emailService, UnitOfWork unitOfWork, IMapper mapper){
             _userRepository = userRepository;
             _emailService = emailService;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
+
         public LoginResponseViewModel Authenticate(LoginRequestViewModel loginRequest)
         {
             //recupera o usuário
@@ -37,15 +44,17 @@ namespace NewMeal.Application.Services
             //Gera o token
             var token = TokenService.GenerateToken(infoLogin, user);
 
-            UserResponseViewModel userResponse = new UserResponseViewModel{
-                Id = user.Id,
-                Nome = user.Nome,
-                Contato = user.Contato,
-                Rua = user.Rua,
-                Numero = user.Rua,
-                Compl = user.Compl,
-                Role = user.Role
-            };
+
+            UserResponseViewModel userResponse = _mapper.Map<UserResponseViewModel>(user);
+            // UserResponseViewModel userResponse = new UserResponseViewModel{
+            //     Id = user.Id,
+            //     Nome = user.Nome,
+            //     Contato = user.Contato,
+            //     Rua = user.Rua,
+            //     Numero = user.Rua,
+            //     Compl = user.Compl,
+            //     Role = user.Role
+            // };
             
             return new LoginResponseViewModel{User = userResponse, Token = token};
         }
@@ -53,19 +62,10 @@ namespace NewMeal.Application.Services
         public async Task<bool> SignUp(SignUpRequestViewModel signUpRequest)
         {
 
-            User user = new User{
-                Nome = signUpRequest.Nome,
-                Contato = signUpRequest.Contato,
-                Rua = signUpRequest.Rua,
-                Numero = signUpRequest.Numero,
-                Compl = signUpRequest.Compl,
-                Role = "consumidor"
-            };
+            User user = _mapper.Map<User>(signUpRequest);
+            user.Role = "Consumidor";
             
-            InfoLogin infoLogin = new InfoLogin{
-                Email = signUpRequest.Email,
-                Senha = signUpRequest.Senha
-            };
+            InfoLogin infoLogin = _mapper.Map<InfoLogin>(signUpRequest);
 
             if(_userRepository.GetInfoLogin(infoLogin.Email, infoLogin.Senha) != null){
                 return false;

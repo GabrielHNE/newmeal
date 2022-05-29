@@ -6,16 +6,20 @@ using NewMeal.Domain.Models;
 using NewMeal.Application.ViewModels;
 using NewMeal.Infra;
 using NewMeal.Infra.Repositories;
+using AutoMapper;
 
 namespace NewMeal.Application.Services
 {
     public class RestauranteService
     {
         private RestauranteRepository _restauranteRepository;
+        private IMapper _mapper;
 
-        public RestauranteService(RestauranteRepository restauranteRepository){
+        public RestauranteService(RestauranteRepository restauranteRepository, IMapper mapper){
             _restauranteRepository = restauranteRepository;
+            _mapper = mapper;
         }
+
         public async Task<IEnumerable<RestauranteResponseViewModel>> GetAll(bool details)
         {
             
@@ -23,39 +27,7 @@ namespace NewMeal.Application.Services
             if(details) restaurantes = await _restauranteRepository.GetAllFull();
             else restaurantes = await _restauranteRepository.GetAll();
 
-            List<RestauranteResponseViewModel> response = new List<RestauranteResponseViewModel>();
-            foreach(Restaurante r in restaurantes){
-                RestauranteResponseViewModel aux = new RestauranteResponseViewModel{
-                    Id = r.Id,
-                    Nome = r.Nome,
-                    Cnpj = r.Cnpj,
-                    Endereco = r.Endereco,
-                    Telefone = r.Telefone
-                };
-                if(details){
-                    List<PratoResponseViewModel> pratos = new List<PratoResponseViewModel>();
-                    foreach(Prato p in r.Pratos){
-                        PratoResponseViewModel auxP = new PratoResponseViewModel{
-                            Descricao = p.Descricao,
-                            Nome = p.Nome,
-                            Preco = p.Preco,
-                            RestauranteId = p.RestauranteId
-                        };
-
-                        List<FotoPratoResponseViewModel> fotos = new List<FotoPratoResponseViewModel>();
-                        foreach(FotoPrato f in p.Fotos){
-                            FotoPratoResponseViewModel auxF = new FotoPratoResponseViewModel{
-                                Url = f.Url
-                            };
-                            fotos.Add(auxF);
-                        }
-                        auxP.Fotos = fotos;
-                        pratos.Add(auxP);
-                    }
-                    aux.Pratos = pratos;
-                }
-                response.Add(aux);
-            }
+            List<RestauranteResponseViewModel> response = _mapper.Map<List<RestauranteResponseViewModel>>(restaurantes);
 
             return response;
         }
