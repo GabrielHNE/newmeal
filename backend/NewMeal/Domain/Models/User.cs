@@ -10,5 +10,6 @@ namespace NewMeal.Domain.Models
         public string Role { get; set; }
 
         public InfoLogin InfoLogin { get; set; }
+        public Restaurante Restaurante { get; set; }
     }
 }

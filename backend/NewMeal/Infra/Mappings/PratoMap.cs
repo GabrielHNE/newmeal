@@ -13,6 +13,10 @@ namespace NewMeal.Infra.Mappings{
             builder
                 .Property(x => x.Preco)
                 .IsRequired();
+
+            builder
+                .Property(x => x.CategoriaPreco)
+                .IsRequired();
             
             builder
                 .Property(x => x.Nome)

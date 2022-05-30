@@ -7,6 +7,7 @@ namespace NewMeal.Domain.Models
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public decimal Preco { get; set; }
+        public int CategoriaPreco { get; set; }
         public int RestauranteId { get; set; }
         public Restaurante Restaurante { get; set; }
         public IEnumerable<FotoPrato> Fotos { get; set; }
