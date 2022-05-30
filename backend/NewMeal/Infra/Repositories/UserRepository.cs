@@ -19,7 +19,7 @@ namespace NewMeal.Infra.Repositories
 
         public User GetUser(int id)
         {
-            return Query.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return Query.AsNoTracking().Include(x => x.Restaurante).ThenInclude(x => x.Pratos).FirstOrDefault(x => x.Id == id);
         }
 
     }
