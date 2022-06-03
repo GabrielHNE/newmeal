@@ -44,6 +44,14 @@ namespace NewMeal.Controllers
             return await _restauranteService.RemovePrato(idRestaurante, idPrato);     
         }
 
+        [HttpPost]
+        [Route("restaurantes/{idRestaurante:int}/cardapio/addPrato")]
+        [AllowAnonymous]
+        public async Task<PratoResponseViewModel> AdicionarPrato([FromRoute] int idRestaurante, [FromBody] PratoRequestViewModel pratoRequestViewModel)
+        {   
+            return await _restauranteService.AdicionarPrato(idRestaurante, pratoRequestViewModel);     
+        }
+
         [HttpPut]
         [Route("restaurantes/{id:int}/cardapio/status")]
         [AllowAnonymous]

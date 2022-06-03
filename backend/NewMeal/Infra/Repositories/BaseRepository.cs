@@ -1,8 +1,7 @@
 using System.Linq;
 using System;
 using NewMeal.Domain.Models;
-using NewMeal.Domain.Interfaces;
-using NewMeal.Infra;
+using NewMeal.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
