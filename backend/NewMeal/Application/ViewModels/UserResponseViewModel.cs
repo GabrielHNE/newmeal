@@ -8,5 +8,6 @@ namespace NewMeal.Application.ViewModels
         public string Numero { get; set; }
         public string Compl { get; set; }
         public string Role { get; set; }
+        public RestauranteResponseViewModel Restaurante { get; set; }
     }
 }

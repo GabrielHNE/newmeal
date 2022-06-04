@@ -2,13 +2,12 @@ using System.Collections.Generic;
 
 namespace NewMeal.Application.ViewModels
 {
-    public class PratoResponseViewModel
+    public class PratoRequestViewModel
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public decimal Preco { get; set; }
-        public int RestauranteId { get; set; }
-        public IEnumerable<FotoPratoResponseViewModel> Fotos { get; set; }
+        public int CategoriaPreco { get; set; }
+        public IEnumerable<FotoPratoRequestViewModel> Fotos { get; set; }
     }
 }

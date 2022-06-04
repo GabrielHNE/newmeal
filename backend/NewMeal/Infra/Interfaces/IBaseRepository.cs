@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NewMeal.Domain.Models;
 
-namespace NewMeal.Domain.Interfaces
+namespace NewMeal.Infra.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseModel
     {

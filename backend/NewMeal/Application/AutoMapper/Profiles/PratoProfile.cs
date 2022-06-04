@@ -10,7 +10,9 @@ namespace NewMeal.Application.AutoMapper.Profiles
         public PratoProfile()
         {
             CreateMap<Prato, PratoResponseViewModel>();
+            CreateMap<PratoRequestViewModel, Prato>();
             CreateMap<FotoPrato, FotoPratoResponseViewModel>();
+            CreateMap<FotoPratoRequestViewModel, FotoPrato>();
         }
     }
 }

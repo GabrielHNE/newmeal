@@ -8,8 +8,8 @@ using NewMeal.Infra;
 namespace NewMeal.Infra.Migrations
 {
     [DbContext(typeof(NewMealDbContext))]
-    [Migration("20220414203124_AddRestaurante")]
-    partial class AddRestaurante
+    [Migration("20220530162643_sprint3")]
+    partial class sprint3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,6 +65,9 @@ namespace NewMeal.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CategoriaPreco")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");
 
@@ -90,6 +93,9 @@ namespace NewMeal.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("CardapioAtivo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Cnpj")
                         .HasColumnType("TEXT");
 
@@ -102,7 +108,16 @@ namespace NewMeal.Infra.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UrlFoto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Restaurantes");
                 });
@@ -169,6 +184,17 @@ namespace NewMeal.Infra.Migrations
                     b.Navigation("Restaurante");
                 });
 
+            modelBuilder.Entity("NewMeal.Domain.Models.Restaurante", b =>
+                {
+                    b.HasOne("NewMeal.Domain.Models.User", "User")
+                        .WithOne("Restaurante")
+                        .HasForeignKey("NewMeal.Domain.Models.Restaurante", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("NewMeal.Domain.Models.Prato", b =>
                 {
                     b.Navigation("Fotos");
@@ -182,6 +208,8 @@ namespace NewMeal.Infra.Migrations
             modelBuilder.Entity("NewMeal.Domain.Models.User", b =>
                 {
                     b.Navigation("InfoLogin");
+
+                    b.Navigation("Restaurante");
                 });
 #pragma warning restore 612, 618
         }

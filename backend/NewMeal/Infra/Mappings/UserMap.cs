@@ -19,6 +19,10 @@ namespace NewMeal.Infra.Mappings{
                 .WithOne(x => x.Perfil)
                 .HasForeignKey<InfoLogin>(x => x.PerfilId);
             
+            builder
+                .HasOne(x => x.Restaurante)
+                .WithOne(x => x.User)
+                .HasForeignKey<Restaurante>(x => x.UserId);
         }
     }
 }

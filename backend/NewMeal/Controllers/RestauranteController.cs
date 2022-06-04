@@ -28,24 +28,37 @@ namespace NewMeal.Controllers
             return await _restauranteService.GetAll(details);     
         }
 
-        // [HttpGet]
-        // [Route("anonymous")]
-        // [AllowAnonymous]
-        // public string Anonymous() => "Anônimo";
+        [HttpGet]
+        [Route("restaurantes/{id:int}/cardapio")]
+        [AllowAnonymous]
+        public async Task<IEnumerable<PratoResponseViewModel>> GetCardapio([FromRoute] int id)
+        {   
+            return await _restauranteService.GetCardapio(id);     
+        }
 
-        // [HttpGet]
-        // [Route("authenticated")]
-        // [Authorize]
-        // public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name );
+        [HttpDelete]
+        [Route("restaurantes/{idRestaurante:int}/cardapio/{idPrato:int}")]
+        [AllowAnonymous]
+        public async Task<bool> RemoverPrato([FromRoute] int idRestaurante, [FromRoute] int idPrato)
+        {   
+            return await _restauranteService.RemovePrato(idRestaurante, idPrato);     
+        }
 
-        // [HttpGet]
-        // [Route("employee")]
-        // [Authorize(Roles = "employee,manager")]
-        // public string Employee() => "Funcionário";
+        [HttpPost]
+        [Route("restaurantes/{idRestaurante:int}/cardapio/addPrato")]
+        [AllowAnonymous]
+        public async Task<PratoResponseViewModel> AdicionarPrato([FromRoute] int idRestaurante, [FromBody] PratoRequestViewModel pratoRequestViewModel)
+        {   
+            return await _restauranteService.AdicionarPrato(idRestaurante, pratoRequestViewModel);     
+        }
 
-        // [HttpGet]
-        // [Route("manager")]
-        // [Authorize(Roles = "manager")]
-        // public string Manager() => "Gerente";
+        [HttpPut]
+        [Route("restaurantes/{id:int}/cardapio/status")]
+        [AllowAnonymous]
+        public async Task<bool> MudarStatus([FromRoute] int id)
+        {   
+            await _restauranteService.MudarStatus(id);
+            return true;
+        }
     }
 }
