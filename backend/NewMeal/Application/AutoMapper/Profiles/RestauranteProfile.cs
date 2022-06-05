@@ -10,6 +10,7 @@ namespace NewMeal.Application.AutoMapper.Profiles
         public RestauranteProfile()
         {
             CreateMap<Restaurante, RestauranteResponseViewModel>();
+            CreateMap<RestauranteRequestViewModel, Restaurante>();
         }
     }
 }

@@ -28,6 +28,14 @@ namespace NewMeal.Controllers
             return await _restauranteService.GetAll(details);     
         }
 
+        [HttpPost]
+        [Route("restaurantes/{idUsuario:int}")]
+        [AllowAnonymous]
+        public async Task<RestauranteResponseViewModel> CriaRestaurante([FromRoute] int idUsuario,[FromBody] RestauranteRequestViewModel restauranteRequestViewModel)
+        {
+            return await _restauranteService.CriarRestaurante(idUsuario, restauranteRequestViewModel);     
+        }
+
         [HttpGet]
         [Route("restaurantes/{id:int}/cardapio")]
         [AllowAnonymous]

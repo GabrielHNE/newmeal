@@ -53,6 +53,18 @@ namespace NewMeal.Application.Services
             return _mapper.Map<PratoResponseViewModel>(prato);
         }
 
+        public async Task<RestauranteResponseViewModel> CriarRestaurante(int idUsuario, RestauranteRequestViewModel restauranteRequestViewModel)
+        {
+            Restaurante restaurante = _mapper.Map<Restaurante>(restauranteRequestViewModel);
+            restaurante.UserId = idUsuario;
+            restaurante.CardapioAtivo = false;
+
+            await _restauranteRepository.Add(restaurante);
+            await _unitOfWork.SaveChanges();
+
+            return _mapper.Map<RestauranteResponseViewModel>(restaurante);
+        }
+
         public async Task<bool> RemovePrato(int idRest, int idPrato){
             Restaurante restaurante = await _restauranteRepository.GetRestauranteFull(idRest);
             var response = restaurante.RemovePrato(idPrato);
