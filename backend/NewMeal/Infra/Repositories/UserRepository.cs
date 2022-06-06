@@ -13,13 +13,13 @@ namespace NewMeal.Infra.Repositories
         public UserRepository(NewMealDbContext newMealDbContext) : base(newMealDbContext){} 
 
         public InfoLogin GetInfoLogin(string email, string senha){
-            return Query.AsNoTracking().Include(x => x.InfoLogin).Where(x => x.InfoLogin.Email == email && x.InfoLogin.Senha == senha)
+            return Query.Include(x => x.InfoLogin).Where(x => x.InfoLogin.Email == email && x.InfoLogin.Senha == senha)
             .Select(x => x.InfoLogin).FirstOrDefault();
         }
 
         public User GetUser(int id)
         {
-            return Query.AsNoTracking().Include(x => x.Restaurante).ThenInclude(x => x.Pratos).FirstOrDefault(x => x.Id == id);
+            return Query.Include(x => x.Restaurante).ThenInclude(x => x.Pratos).FirstOrDefault(x => x.Id == id);
         }
 
     }

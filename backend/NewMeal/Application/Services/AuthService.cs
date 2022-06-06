@@ -39,23 +39,13 @@ namespace NewMeal.Application.Services
             if (infoLogin == null)
                 return null;
 
-            var user = _userRepository.GetUser(infoLogin.Id);
+            var user = _userRepository.GetUser(infoLogin.PerfilId);
 
             //Gera o token
             var token = TokenService.GenerateToken(infoLogin, user);
 
 
             UserResponseViewModel userResponse = _mapper.Map<UserResponseViewModel>(user);
-            // UserResponseViewModel userResponse = new UserResponseViewModel{
-            //     Id = user.Id,
-            //     Nome = user.Nome,
-            //     Contato = user.Contato,
-            //     Rua = user.Rua,
-            //     Numero = user.Rua,
-            //     Compl = user.Compl,
-            //     Role = user.Role
-            // };
-            
             return new LoginResponseViewModel{User = userResponse, Token = token};
         }
 
@@ -77,6 +67,20 @@ namespace NewMeal.Application.Services
             await _unitOfWork.SaveChanges();
             _emailService.sendEmail(infoLogin.Email, "Conta criada no NewMeal", $"Olá, {user.Nome}. Sua conta no NewMeal foi criada com sucesso!");
             return true;
+        }
+
+        public async Task<RestauranteResponseViewModel> CriarRestaurante(int idUsuario, RestauranteRequestViewModel restauranteRequestViewModel)
+        {
+            User user = _userRepository.GetUser(idUsuario);
+            Restaurante restaurante = _mapper.Map<Restaurante>(restauranteRequestViewModel);
+            user.Restaurante = restaurante;
+            user.Role = "Restaurante";
+            
+
+            await _userRepository.Update(user);
+            await _unitOfWork.SaveChanges();
+
+            return _mapper.Map<RestauranteResponseViewModel>(restaurante);
         }
     }
 }
