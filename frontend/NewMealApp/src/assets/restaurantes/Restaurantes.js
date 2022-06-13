@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,25 +11,23 @@ import {
 
 import PageContainer from '../../components/pageContainer/PageContainer';
 import GlobalStyles from '../GlobalStyles';
+import UserHeader from '../../components/UserHeader';
 import Colors from '../Colors';
+import {Context} from './../Context'
 
 import {getRestaurantes} from './apiCalls';
 import staticData from './staticData';
 
+
 const Restaurantes = props => {
   const [restauranteAtivo, setRestauranteAtivo] = useState({});
   const [data, setData] = useState([]);
+  let appContext = useContext(Context)
 
   useEffect(() => {
     async function fetchData() {
       let temp = staticData;
       temp = await getRestaurantes();
-      if (temp instanceof Error) {
-        // console.log(
-        //   'Nao foi possivel localizar dados na api. Retornando dados locais',
-        // );
-        temp = staticData;
-      }
       setData(temp);
     }
     fetchData();
@@ -44,17 +42,8 @@ const Restaurantes = props => {
   return (
     <PageContainer style={GlobalStyles.allCentered}>
       <View style={Styles.pageContainer}>
-        <View style={Styles.userContainer}>
-          <View style={Styles.avatarContainer}>
-            <Image
-              source={require('./../../assets/images/Ellipse1.png')}
-              style={Styles.userAvatar}
-            />
-          </View>
-          <Text style={{color: Colors.black}}> Jasmine Gibson</Text>
-          <Text style={Styles.textUserInfo}>Não assinante</Text>
-        </View>
-        <View style={Styles.divisor} />
+        <UserHeader userData={appContext.userData}></UserHeader>
+        <View style={GlobalStyles.divisor} />
         <View style={Styles.textConainer}>
           <Text style={{fontSize: 25, color: Colors.black, width: '60%'}}>
             Com fome? Você está no lugar certo
@@ -74,7 +63,7 @@ const Restaurantes = props => {
                   style={Styles.restaurantImageContainer}
                   onPress={() => setRestauranteAtivo(item.item)}>
                   <Image
-                    source={{uri: item.item.foto}}
+                    source={{uri: item.item.urlFoto}}
                     style={Styles.restaurantImage}
                   />
                   <Text style={{color: Colors.black}}>{item.item.nome}</Text>
@@ -83,7 +72,7 @@ const Restaurantes = props => {
             />
           )}
         </View>
-        <View style={Styles.divisor} />
+        <View style={GlobalStyles.divisor} />
 
         <View style={Styles.contentContainer}>
           {restauranteAtivo.nome && (
@@ -97,7 +86,7 @@ const Restaurantes = props => {
                 {restauranteAtivo.endereco}
               </Text>
               <Image
-                source={{uri: restauranteAtivo.foto}}
+                source={{uri: restauranteAtivo.urlFoto}}
                 style={Styles.restauranteImageDetalhes}
               />
             </>
@@ -157,18 +146,12 @@ const Styles = StyleSheet.create({
   restaurantImage: {
     width: '80%',
     height: '80%',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     ...GlobalStyles.roundedBox,
-  },
-  divisor: {
-    width: '100%',
-    height: 2,
-    backgroundColor: Colors.grey,
-    margin: 2,
   },
   restauranteImageDetalhes: {
     width: '80%',
-    height: '50%',
+    height: '40%',
     resizeMode: 'contain',
     ...GlobalStyles.roundedBox,
     alignSelf: 'center',

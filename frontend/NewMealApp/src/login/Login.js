@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   TouchableOpacity,
   Text,
   ImageBackground,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Alert,
 } from 'react-native';
 
 import Colors from '../assets/Colors';
@@ -14,7 +15,8 @@ import GlobalStyles from '../assets/GlobalStyles';
 import PageContainer from '../components/pageContainer/PageContainer';
 import LoginComponent from './components/LoginComponent';
 import Register from './components/Register';
-import { login, signUp } from './apiCalls';
+import {login, signUp} from './apiCalls';
+import {Context} from './../assets/Context'
 
 const Login = props => {
   const [tipo, setTipo] = useState('escolher');
@@ -25,7 +27,14 @@ const Login = props => {
   const [endereco, setEndereco] = useState('');
   const [senha, setSenha] = useState('');
 
-  const loginObj = {email: email, setEmail: setEmail, senha: senha, setSenha: setSenha};
+  let appContext = useContext(Context)
+
+  const loginObj = {
+    email: email,
+    setEmail: setEmail,
+    senha: senha,
+    setSenha: setSenha,
+  };
   const registerObj = {
     email: email,
     setEmail: setEmail,
@@ -40,14 +49,32 @@ const Login = props => {
   };
   const windowHeight = Dimensions.get('window').height;
 
-  const attemptLogin = async() => {
-    console.log(`Logando com email:  ${email} e senha: ${senha}`)
-     login(email, senha);
-    props.navigation.navigate('Restaurantes')
-  }
-  const attemptSignUp = async() => {
-    signUp(nome, email, contato, endereco, senha);
-  }
+  const attemptLogin = async () => {
+    console.log(`Logando com email:  ${email} e senha: ${senha}`);
+    let res = await login(email, senha);
+    if (res.statusCode) {
+      Alert.alert('Login falhou!', 'Email ou senha incorretos', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    } else {
+      await appContext.setUserData(res)
+      props.navigation.push('TabNav', {teste: 'teste'});
+    }
+  };
+
+  const attemptSignUp = async () => {
+    let res = await signUp(nome, email, contato, endereco, senha);
+    if (res.statusCode !== 200 || res instanceof Error) {
+      Alert.alert('Ops!', res.value || 'Falha na criação de conta', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    } else {
+      Alert.alert('Sucesso!', 'Contra criada com sucesso!', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+      setTipo('escolher');
+    }
+  };
 
   return (
     <PageContainer style={Styles.pageContainer}>
@@ -66,7 +93,9 @@ const Login = props => {
                 <TouchableOpacity
                   style={Styles.button}
                   onPress={() => setTipo('register')}>
-                  <Text style={{fontSize: 25, color: Colors.white}}>Registrar-se</Text>
+                  <Text style={{fontSize: 25, color: Colors.white}}>
+                    Registrar-se
+                  </Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
@@ -77,18 +106,58 @@ const Login = props => {
             </View>
           )}
           {tipo === 'login' && (
-            <TouchableOpacity
-              style={Styles.buttonAlone}
-              onPress={() => {attemptLogin()}}>
-              <Text style={{fontSize: 25, color: Colors.white}}>Entrar</Text>
-            </TouchableOpacity>
+            // <TouchableOpacity
+            //   style={Styles.buttonAlone}
+            //   onPress={() => {attemptLogin()}}>
+            //   <Text style={{fontSize: 25, color: Colors.white}}>Entrar</Text>
+            // </TouchableOpacity>
+
+            <View style={Styles.buttonContainer}>
+              <View style={Styles.butttonLeftContainer}>
+                <TouchableOpacity
+                  style={Styles.button}
+                  onPress={() => setTipo('escolher')}>
+                  <Text style={{fontSize: 25, color: Colors.white}}>
+                    Voltar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={Styles.button}
+                onPress={() => {
+                  attemptLogin();
+                }}>
+                <Text style={{fontSize: 25, color: Colors.orange}}>Entrar</Text>
+              </TouchableOpacity>
+            </View>
           )}
           {tipo === 'register' && (
-            <TouchableOpacity
-              style={Styles.buttonAlone}
-              onPress={() => {attemptSignUp()}}>
-              <Text style={{fontSize: 25, color: Colors.white}}>Cadastrar</Text>
-            </TouchableOpacity>
+            // <TouchableOpacity
+            //   style={Styles.buttonAlone}
+            //   onPress={() => {attemptSignUp()}}>
+            //   <Text style={{fontSize: 25, color: Colors.white}}>Cadastrar</Text>
+            // </TouchableOpacity>
+
+            <View style={Styles.buttonContainer}>
+              <View style={Styles.butttonLeftContainer}>
+                <TouchableOpacity
+                  style={Styles.button}
+                  onPress={() => setTipo('escolher')}>
+                  <Text style={{fontSize: 25, color: Colors.white}}>
+                    Voltar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                style={Styles.button}
+                onPress={() => {
+                  attemptSignUp();
+                }}>
+                <Text style={{fontSize: 25, color: Colors.orange}}>
+                  Cadastrar
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
         </View>
       </ImageBackground>
@@ -126,17 +195,17 @@ const Styles = StyleSheet.create({
     flex: 1,
     ...GlobalStyles.allCentered,
   },
-  buttonAlone:{
+  buttonAlone: {
     ...GlobalStyles.roundedBox,
     ...GlobalStyles.allCentered,
     width: '40%',
     height: '40%',
     backgroundColor: Colors.orange,
   },
-  textDescubra:{
+  textDescubra: {
     fontFamily: 'Pacifico',
     fontSize: 50,
-    color: Colors.white
+    color: Colors.white,
   },
 });
 
