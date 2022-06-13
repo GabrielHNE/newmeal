@@ -91,11 +91,11 @@ export default ([
     },
     {
       "id": 1,
-      "nome": "Restaurante 1",
-      "cnpj": "111111111",
+      "nome": "Restaurante 2",
+      "cnpj": "111111112",
       "telefone": "3333-3333",
-      "endereco": "Avenida Seila",
-      "foto": "https://duisktnou8b89.cloudfront.net/img/stores/60d4e56c1eb60.png",
+      "endereco": "Avenida Seila n sei nao",
+      "foto": "http://www.arnaldos.com.br/wp-content/uploads/2020/03/logo_topo.png",
       "pratos": [
         {
           "nome": "X-burguer",

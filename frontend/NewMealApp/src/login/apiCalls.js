@@ -8,15 +8,6 @@ export async function login(email, senha) {
       email: email,
       senha: senha,
     },
-    {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Authorization",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE" ,
-        "Content-Type": "application/json;charset=UTF-8"
-    },
-    mode: "cors"
-    }
     )
     .then(response => {
       retorno = response.data;
@@ -25,8 +16,9 @@ export async function login(email, senha) {
     .catch(e => {
       retorno = e;
       console.log(JSON.parse(JSON.stringify(e)))
-      return e;
+      // return e;
     });
+    return retorno
 
   //FETCH
   // fetch('191.52.64.250:3333/items', {
@@ -62,7 +54,6 @@ export async function login(email, senha) {
 }
 export async function signUp(nome, email, contato, endereco, senha) {
   let retorno = {};
-  console.log('Cadastreando....');
   await api
     .post(`/signup`, {
       nome: nome,
@@ -78,7 +69,7 @@ export async function signUp(nome, email, contato, endereco, senha) {
     .catch(e => {
       retorno = e;
       console.log(JSON.parse(JSON.stringify(e)));
-      return e;
+      // return e;
     });
   return retorno;
 }

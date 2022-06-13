@@ -3,7 +3,8 @@ export default {
   main_light: '#FF7070',
   yellow: '#EDE574',
   orange: '#FC913A',
-  white: '#dddddd',
+  white: '#fff',
   grey: '#D8D8D8',
+  lightGrey: '#eee',
   black: '#000000'
 };
